@@ -72,14 +72,14 @@ getOpponents();
 getMatches();
 
 
-function sortMatches (){
-    var season = $('#season').val();
-    var type = $('#type').val();
-    var my_char = $('#my_chars').val();
-    var opp = $('#opponents').val();
-    var opp_rank = $('#opp_ranks').val();
-    var opp_char = $('#opp_chars').val();
-    var result = $('#result').val();
+function sortMatches (season = 0, type = 0, my_char = 0, opp = 0, opp_rank = 0, opp_char = 0, result = 0, ){
+    season = $('#season').val();
+    type = $('#type').val();
+    my_char = $('#my_chars').val();
+    opp = $('#opponents').val();
+    opp_rank = $('#opp_ranks').val();
+    opp_char = $('#opp_chars').val();
+    result = $('#result').val();
     var resultHTML = '<div class=\'row\'><strong><div class=\'col-xs-1 ranbats\'>Season</div><div class=\'col-xs-1 ranbats\'>Type</div><div class=\'col-xs-2 ranbats\'>My Char</div><div class=\'col-xs-3 ranbats\'>Opp Name</div><div class=\'col-xs-2 ranbats\'>Opp Rank</div><div class=\'col-xs-2 ranbats\'>Opp Char</div><div class=\'col-xs-1 ranbats\'>Result</div></strong></div>';
     
     
