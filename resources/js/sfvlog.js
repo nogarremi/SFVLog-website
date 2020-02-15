@@ -1,83 +1,52 @@
-var matches
-function getChars() {
+var matches;
+function reqHttp(resource){
     var xhttp = new XMLHttpRequest();
+    var prefix = '';
+    var optionHTML = '';
     
     xhttp.onreadystatechange = function() {
         if(xhttp.readyState == 4 && xhttp.status == 200) {
-            var res = JSON.parse(xhttp.responseText)['characters'];
-            var charHTML = '<option value="0">All Characters</option>';
+            var res = JSON.parse(xhttp.responseText)[resource];
+            switch (resource) {
+                case 'characters':
+                    prefix = 'char';
+                    break;
+                case 'opponents':
+                    prefix = 'opp';
+                    break;
+                case 'ranks':
+                    prefix = 'rank';
+                    break;
+                case 'matches':
+                    matches = res;
+                    sortMatches();
+                    return;
+            }
+            optionHTML += "<option value= '0'>All " + resource.charAt(0).toUpperCase() + resource.slice(1) + "</option>"
             for (var key in res) {
                 if (res.hasOwnProperty(key)) {
-                    charHTML += "<option value= '" + res[key]['char_id']  + "'>" + res[key]['char_name'] + "</option>";
+                    optionHTML += "<option value= '" + res[key][prefix+'_id']  + "'>" + res[key][prefix+'_name'] + "</option>";
                 }
             }
-            document.getElementById('my_chars').innerHTML = charHTML;
-            document.getElementById('opp_chars').innerHTML = charHTML;
-        }
-    };
-    xhttp.open("GET", "https://psynr0j4v5.execute-api.us-east-1.amazonaws.com/prod/characters/", true);	
-    xhttp.send(null);
-}
-function getOpponents() {
-    var xhttp = new XMLHttpRequest();
-    
-    xhttp.onreadystatechange = function() {
-        if(xhttp.readyState == 4 && xhttp.status == 200) {
-            var res = JSON.parse(xhttp.responseText)['opponents'];
-            var oppHTML = '<option value="0">All Opponents</option>';
-            for (var key in res) {
-                if (res.hasOwnProperty(key)) {
-                    oppHTML += "<option value= '" + res[key]['opp_id'] + "'>" + res[key]['opp_name'] + "</option>";
-                }
+            switch (resource) {
+                case 'characters':
+                    document.getElementById('my_chars').innerHTML = optionHTML;
+                    document.getElementById('opp_chars').innerHTML = optionHTML;
+                    break;
+                default:
+                    document.getElementById(resource).innerHTML = optionHTML;
             }
-            document.getElementById('opponents').innerHTML = oppHTML;
         }
     };
-    xhttp.open("GET", "https://psynr0j4v5.execute-api.us-east-1.amazonaws.com/prod/opponents/", true);	
+    xhttp.open("GET", "https://psynr0j4v5.execute-api.us-east-1.amazonaws.com/prod/"+resource, true);	
     xhttp.send(null);
 }
-function getRanks() {
-    var xhttp = new XMLHttpRequest();
-    
-    xhttp.onreadystatechange = function() {
-        if(xhttp.readyState == 4 && xhttp.status == 200) {
-            var res = JSON.parse(xhttp.responseText)['ranks'];
-            var rankHTML = '<option value="0">All Ranks</option>';
-            for (var key in res) {
-                if (res.hasOwnProperty(key)) {
-                    rankHTML += "<option value= '" + res[key]['rank_id'] + "'>" + res[key]['rank_name'] + "</option>";
-                }
-            }
-            document.getElementById('opp_ranks').innerHTML = rankHTML;
-        }
-    };
-    xhttp.open("GET", "https://psynr0j4v5.execute-api.us-east-1.amazonaws.com/prod/ranks/", true);	
-    xhttp.send(null);
-}
-function getMatches() {
-    var xhttp = new XMLHttpRequest();
-    
-    xhttp.onreadystatechange = function() {
-        if(xhttp.readyState == 4 && xhttp.status == 200) {
-            matches = JSON.parse(xhttp.responseText)['matches'];
-            sortMatches();
-        }
-    };
-    xhttp.open("GET", "https://psynr0j4v5.execute-api.us-east-1.amazonaws.com/prod/matches/", true);	
-    xhttp.send(null);
-}
-getChars();
-getRanks();
-getOpponents();
-getMatches();
-
-
 function sortMatches (season = 0, type = 0, my_char = 0, opp = 0, opp_rank = 0, opp_char = 0, result = 0, ){
     season = $('#season').val();
     type = $('#type').val();
     my_char = $('#my_chars').val();
     opp = $('#opponents').val();
-    opp_rank = $('#opp_ranks').val();
+    opp_rank = $('#ranks').val();
     opp_char = $('#opp_chars').val();
     result = $('#result').val();
     var resultHTML = '<div class=\'row\'><strong><div class=\'col-xs-1 ranbats\'>Season</div><div class=\'col-xs-1 ranbats\'>Type</div><div class=\'col-xs-2 ranbats\'>My Char</div><div class=\'col-xs-3 ranbats\'>Opp Name</div><div class=\'col-xs-2 ranbats\'>Opp Rank</div><div class=\'col-xs-2 ranbats\'>Opp Char</div><div class=\'col-xs-1 ranbats\'>Result</div></strong></div>';
@@ -120,3 +89,9 @@ function sortMatches (season = 0, type = 0, my_char = 0, opp = 0, opp_rank = 0, 
     }
     document.getElementById('results').innerHTML = resultHTML;
 }
+
+reqHttp('characters');
+reqHttp('ranks');
+reqHttp('opponents');
+reqHttp('matches');
+
