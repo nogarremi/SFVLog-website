@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>SFVLog | Website</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" href="resources/imgs/favicon.png" type="image/png" sizes="128x128">
+		<link rel="stylesheet" href="resources/css/bootstrap.min.css">
+		<link rel="stylesheet" href="resources/css/sfvlog.css">
+	</head>
+	<body id="topOfPage" data-offset="50">
+		<!-- Container (The MATCHES Section) -->
+		<div id="matches" class="bg-2">
+			<div class="container text-center">
+				<div id="row">
+					<select id="season" onChange=sortMatches()>
+						<option value="0">All Seasons</option>
+						<option value="2019">S4</option>
+						<option value="2020">S5</option>
+					</select>
+					<select id="type" onChange=sortMatches()>
+						<option value="0">All Match Types</option>
+						<option value="1">Ranked</option>
+						<option value="2">Casual</option>
+						<option value="3">Battle Lounge</option>
+					</select>
+					<select id="my_chars" onChange=sortMatches()></select>
+					<select id="opponents" onChange=sortMatches()></select>
+					<select id="opp_ranks" onChange=sortMatches()></select>
+					<select id="opp_chars" onChange=sortMatches()></select>
+					<select id="result" onChange=sortMatches()>
+						<option value="0">All Results</option>
+						<option value="1">Win</option>
+						<option value="2">Loss</option>
+					</select>
+				</div>
+				<div id="results" class="text-center"></div>
+			</div>
+		</div>
+
+		<!-- Footer -->
+		<footer class="text-center">
+		  <a class="up-arrow" href="#topOfPage" data-toggle="tooltip" title="TO TOP">
+			<span class="glyphicon glyphicon-chevron-up"></span>
+		  </a>
+		</footer>
+		<script src="resources/js/jquery.min.js"></script>
+		<script src="resources/js/bootstrap.min.js"></script>
+		<script src="resources/js/sfvlog.js"></script>
+	</body>
+</html>
